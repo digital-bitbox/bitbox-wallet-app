@@ -1,6 +1,6 @@
 # BitBoxApp
 
-![BitBoxApp Screenshot](./docs/assets/app-screen.png)
+![BitBoxApp Screenshot](./app-screen.png)
 
 This repo contains the source code for the BitBoxApp and related tools.
 
