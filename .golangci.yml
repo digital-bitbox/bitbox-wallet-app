@@ -1,0 +1,161 @@
+# See reference docs for details:
+# https://golangci-lint.run/usage/configuration/
+
+# options for analysis running
+run:
+  go: 1.20
+
+  # default concurrency is a available CPU number
+  concurrency: 4
+
+  # timeout for analysis, e.g. 30s, 5m, default is 1m
+  deadline: 10m
+
+  # exit code when at least one issue was found, default is 1
+  issues-exit-code: 1
+
+  # include test files or not, default is true
+  tests: true
+
+  # ignore go.mod and use vendor dir instead
+  modules-download-mode: vendor
+
+# output configuration options
+output:
+  # colored-line-number|line-number|json|tab|checkstyle, default is "colored-line-number"
+  format: colored-line-number
+
+  # print lines of code with issue, default is true
+  print-issued-lines: true
+
+  # print linter name in the end of issue text, default is true
+  print-linter-name: true
+
+
+# all available settings of specific linters
+linters-settings:
+  gocritic:
+    enabled-checks:
+      - assignOp
+      - builtinShadow
+      - captLocal
+      - caseOrder
+      - defaultCaseOrder
+      - dupArg
+      - dupBranchBody
+      - dupCase
+      - elseif
+      - flagDeref
+      - ifElseChain
+      - nilValReturn
+      - rangeExprCopy
+      - rangeValCopy
+      - regexpMust
+      - sloppyLen
+      - switchTrue
+      - typeSwitchVar
+      - typeUnparen
+      - underef
+      - unlambda
+      - unslice
+  maligned:
+    # print struct with more effective memory layout or not, false by default
+    suggest-new: true
+  dupl:
+    # tokens count to trigger issue, 150 by default
+    threshold: 150
+  goconst:
+    # minimal length of string constant, 3 by default
+    min-len: 3
+    # minimal occurrences count to trigger, 3 by default
+    min-occurrences: 3
+  misspell:
+    # Correct spellings using locale preferences for US or UK.
+    # Default is to use a neutral variety of English.
+    # Setting locale to US will correct the British spelling of 'colour' to 'color'.
+    locale: US
+  lll:
+    # max line length, lines longer will be reported. Default is 120.
+    # '\t' is counted as 1 character by default, and can be changed with the tab-width option
+    line-length: 120
+    # allow long comments.
+    exclude: '//'
+
+linters:
+  enable-all: true
+  disable:
+    - golint
+    - scopelint
+    - interfacer
+    - gosec
+    - bodyclose
+    - dogsled
+    - dupl
+    - funlen
+    - gochecknoglobals
+    - gochecknoinits
+    - gocognit
+    - godox
+    - goerr113 # can't switch to errors.Is due to GopherJS still on go1.12
+    - gomnd
+    - lll
+    - maligned
+    - nestif
+    - prealloc
+    - stylecheck
+    - whitespace
+    - wsl
+    - execinquery
+    - ireturn
+    - wrapcheck
+    - varnamelen
+    - tagliatelle
+    - paralleltest
+    - nonamedreturns
+    - noctx
+    - nlreturn
+    - cyclop
+    - ifshort
+    - exhaustive
+    - nilnil
+    - nilerr
+    - forcetypeassert
+    - exhaustivestruct
+    - exhaustruct
+    - maintidx
+    - errorlint
+    - gofumpt
+    - gci
+    - errname
+    - forbidigo
+    - makezero
+    - nolintlint
+    - gocyclo
+    - nosnakecase
+    - interfacebloat
+    - revive
+    - musttag
+    - structcheck
+    - deadcode
+    - varcheck
+  disable-all: false
+
+issues:
+  # List of regexps of issue texts to exclude, empty list by default.
+  # But independently from this option we use default exclude patterns,
+  # it can be disabled by `exclude-use-default: false`. To list all
+  # excluded by default patterns execute `golangci-lint run --help`
+  exclude:
+  # Use linters in their original configuration. golangci-linter changes the default config, for
+  # example skipping the docstring comment checks of golint.
+  exclude-use-default: false
+
+  # Excluding configuration per-path, per-linter, per-text and per-source.
+  exclude-rules:
+    # In addition to always disalbed linters above, exclude some more in tests.
+    - path: _test\.go
+      linters:
+        - errcheck
+        - godot
+        - gosec
+        - testpackage
